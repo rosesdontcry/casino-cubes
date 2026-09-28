@@ -1,0 +1,10 @@
+*.db
+*.xlsx
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+.idea/
+*.iml
+.vscode/
+.DS_Store
