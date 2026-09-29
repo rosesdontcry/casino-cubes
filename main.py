@@ -42,7 +42,8 @@ def build_engine(alert_bus: AlertBus, history: RoundHistory) -> PatternEngine:
             alert_bus, config.TRACKED_FIELDS, config.MIN_O_COUNT, config.MAX_O_COUNT,
         ),
         StreakBurstPattern(
-            alert_bus, config.TRACKED_FIELDS, config.SEQ_COUNT_THRESHOLD,
+            alert_bus, config.TRACKED_FIELDS,
+            config.SEQ_COUNT_THRESHOLD, config.STREAK_BURST_MAX_GAP,
         ),
         PairChainPattern(
             alert_bus, config.TRACKED_FIELDS, config.ANY_PAIR_MIN_GAP,
@@ -66,12 +67,12 @@ def main() -> None:
     for p in engine.patterns:
         print(f"  - {p.key}: {p.description}")
 
-    command_notifier = build_notifier("main")
+    command_notifier = build_notifier("first_bot")
     handle_command = build_command_handler(db, command_notifier)
 
     cmd_thread = threading.Thread(
         target=run_forever_safe,
-        args=(config.BOT_TOKENS["main"], config.TELEGRAM_CHAT_IDS, handle_command),
+        args=(config.BOT_TOKENS["first_bot"], config.TELEGRAM_CHAT_IDS, handle_command),
         daemon=True,
     )
     cmd_thread.start()

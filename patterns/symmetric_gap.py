@@ -68,7 +68,7 @@ class SymmetricGapPattern(BasePattern):
             round_data = history.get(i)
             if round_data is None:
                 continue
-            marker = "🎯" if i in (idx1, idx2, idx3) else "  "
+            marker = "🎯" if i in (idx1, idx2, idx3) else "   "
             rows.append(AlertRow(round_data=round_data, marker=marker))
 
         alert = Alert(

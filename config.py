@@ -14,18 +14,18 @@
 import os
 
 BOT_TOKENS = {
-    "main": os.environ.get("BOT_TOKEN_MAIN", "8769592366:AAFoaIR9xs3gEnGhBlWBfdQYKS128Hf3rho"),
-    "repeating_pair": os.environ.get("BOT_TOKEN_PAIR", "8949820311:AAFck0_MpkGcWy5pwcIMS2J3IylHgmYUBQU"),
-    "symmetric_gap": os.environ.get("BOT_TOKEN_XOX", "8949820311:AAFck0_MpkGcWy5pwcIMS2J3IylHgmYUBQU"),
-    "combo_patterns": os.environ.get("BOT_TOKEN_COMBO", "8603609103:AAENi9LYuF8bXjwK9E1oZIIpG21UNZeZW5s"),
+    "first_bot": os.environ.get("FIRST_BOT", "8769592366:AAFoaIR9xs3gEnGhBlWBfdQYKS128Hf3rho"),
+    "second_bot": os.environ.get("SECOND_BOT", "8949820311:AAFck0_MpkGcWy5pwcIMS2J3IylHgmYUBQU"),
+    "third_bot": os.environ.get("THIRD_BOT", "8603609103:AAENi9LYuF8bXjwK9E1oZIIpG21UNZeZW5s"),
+
 }
 # pattern_key -> bot_key (используется AlertBus для маршрутизации уведомлений)
 PATTERN_ROUTING = {
-    "run_streak": "main",
-    "repeating_pair": "repeating_pair",
-    "symmetric_gap": "symmetric_gap",
-    "streak_burst": "combo_patterns",
-    "pair_chain": "combo_patterns",
+    "run_streak": "first_bot",
+    "repeating_pair": "second_bot",
+    "symmetric_gap": "second_bot",
+    "streak_burst": "third_bot",
+    "pair_chain": "third_bot",
 }
 
 TELEGRAM_CHAT_IDS = [
@@ -88,7 +88,7 @@ FOLLOWUP_AFTER = 2
 
 RUN_SKIP_MATCH_PATTERNS = [
     {"name": "triple", "icon": "",
-     "desc": "четыре подряд подряд",
+     "desc": "четыре подряд",
      "run_len": 4, "skips": 0, "matches": 0},
 ]
 
@@ -97,6 +97,8 @@ RUN_SKIP_MATCH_PATTERNS = [
 # ---------------------------------------------------------------------------
 
 PAIR_MIN_GAP = 1
+
+
 
 # ---------------------------------------------------------------------------
 # Паттерн: "xoxox / xooxoox / ..." -> symmetric_gap
@@ -109,7 +111,11 @@ MAX_O_COUNT = 6
 # Паттерн: "счётчик последовательностей" -> streak_burst
 # ---------------------------------------------------------------------------
 
-SEQ_COUNT_THRESHOLD = 4
+SEQ_COUNT_THRESHOLD = 4        # уведомление, когда последовательностей накопилось >= этого числа
+STREAK_BURST_MAX_GAP = 3       # максимально допустимый разрыв между сериями внутри одного "всплеска";
+                                # если между окончанием одной серии и началом следующей проходит
+                                # больше этого числа "обычных" раундов — накопленный пул сбрасывается
+
 
 # ---------------------------------------------------------------------------
 # Паттерн: "любая пара -> любая следующая пара" -> pair_chain
